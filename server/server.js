@@ -21,8 +21,18 @@ io.on('connection', (socket) => {
 
     socket.on('createMessage', function (Data) {
         console.log('Message Created :', JSON.stringify(Data,undefined,4));
+        
+        //io.emit emit an event to every single connection
+        //this will take the message emited from a single user and share it with all the users
+        io.emit('newMessage',{
+            from: Data.from,
+            body: Data.body,
+            createdAt: new Date().getDate()
+        });
+
     })
 
+    //socket.emit emit an event to a single connection
     socket.emit('newMessage', {
         from : "amly@gmail.com",
         body: "Hey nice to meat you Elen",
