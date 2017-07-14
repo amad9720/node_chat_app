@@ -1,7 +1,7 @@
 const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
-const {messageGen} = require('./utils/message');
+const {messageGen, locationGen} = require('./utils/message');
 
 const path = require('path');
 
@@ -37,12 +37,10 @@ io.on('connection', (socket) => {
             // socket.broadcast.emit('newMessage',messageGen(Data.from,Data.body));
     })
 
-    //socket.emit emit an event to a single connection
-    // socket.emit('newMessage', {
-    //     from : "amly@gmail.com",
-    //     body: "Hey nice to meat you Elen",
-    //     createdAt: new Date().getDate()
-    // });
+
+    socket.on('createLocatioMessage', (coords)=>{
+        io.emit('newLocationMessage', locationGen('Admin', coords.longitude, coords.latitude));
+    });
 });
 
 server.listen(port, () => {
