@@ -7,11 +7,17 @@
         <!--<link href="css/style.css" rel="stylesheet">-->
     </head>
     <body>
-        <h1>Hello World</h1>
-
-
+        <h1>LEI Chat App</h1>
+        <ol id="message">
+            
+        </ol>
+        <form id="message-form">
+            <input type="text" name="message" placeholder="Message">
+            <button type="submit">Send</button>
+        </form>
 
         <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/libs/jquery-3.2.1.min.js"></script>
         <script src="/js/index.js"></script>
     </body>
 </html>

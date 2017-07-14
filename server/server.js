@@ -1,6 +1,7 @@
 const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
+const {messageGen} = require('./utils/message');
 
 const path = require('path');
 
@@ -16,16 +17,9 @@ var date = new Date();
 
 io.on('connection', (socket) => {
     //console.log('New USER connected !');
-    socket.emit("login", {
-        from : "Admin",
-        body: "You are connected"
-    });
+    socket.emit("newMessage", messageGen('Admin','You are connected'));
 
-    socket.broadcast.emit('userJoined', {
-        from : "Admin",
-        body: "New user Joined the Chat",
-        createdAt: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-    });
+    socket.broadcast.emit('newMessage', messageGen('Admin','New user Joined the chat'));
 
     socket.on('disconnect', (socket) => {
         //console.log('USER disconnected !');
@@ -36,19 +30,11 @@ io.on('connection', (socket) => {
         
         //io.emit emit an event to every single connection
         //this will take the message emited from a single user and share it with all the users
-            io.emit('newMessage',{
-                from: Data.from,
-                body: Data.body,
-                createdAt: new Date().getDate()
-            });
+            io.emit('newMessage', messageGen(Data.from,Data.body));
 
         //Now we want to emit to all users but the one who send the message... for that we will use broadcasting
         //Broadcasting is like io but it will execpt the user who is sending
-            // socket.broadcast.emit('newMessage',{
-            //     from: Data.from,
-            //     body: Data.body,
-            //     createdAt: new Date().getDate()
-            // });
+            // socket.broadcast.emit('newMessage',messageGen(Data.from,Data.body));
     })
 
     //socket.emit emit an event to a single connection
