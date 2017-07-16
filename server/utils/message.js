@@ -1,8 +1,10 @@
- var messageGen = function (from,content) {
+const moment = require('moment');
+
+var messageGen = function (from,content) {
     return {
         from,
         content,
-        createdAt : new Date().getTime()
+        createdAt : moment().valueOf()
     }
 }
 
@@ -10,7 +12,7 @@
     return {
         from,
         url:`https://www.google.com/maps?q=${latitude},${longitude}`,
-        createdAt : new Date().getTime()
+        createdAt : moment().valueOf()
     }
  }
 

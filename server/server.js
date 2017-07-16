@@ -25,20 +25,20 @@ io.on('connection', (socket) => {
         //console.log('USER disconnected !');
     });
 
-    socket.on('createMessage', function (Data) {
-        console.log('Message Created :', JSON.stringify(Data,undefined,4));
+    socket.on('createMessage', function (Data, callback) {
+        // console.log('Message Created :', JSON.stringify(Data,undefined,4));
         
         //io.emit emit an event to every single connection
         //this will take the message emited from a single user and share it with all the users
-            io.emit('newMessage', messageGen(Data.from,Data.body));
-
+        io.emit('newMessage', messageGen(Data.from,Data.body));
+        callback();
         //Now we want to emit to all users but the one who send the message... for that we will use broadcasting
         //Broadcasting is like io but it will execpt the user who is sending
-            // socket.broadcast.emit('newMessage',messageGen(Data.from,Data.body));
+        // socket.broadcast.emit('newMessage',messageGen(Data.from,Data.body));
     })
 
 
-    socket.on('createLocatioMessage', (coords)=>{
+    socket.on('createLocationMessage', (coords) => {
         io.emit('newLocationMessage', locationGen('Admin', coords.longitude, coords.latitude));
     });
 });
