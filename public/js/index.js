@@ -30,12 +30,15 @@ socket.on('userJoined', function(data) {
 
 socket.on('newLocationMessage', function(data) {
     var formatedTime = moment(data.createdAt);
-    var $li = $('<li></li>');
-    var $a = $("<a target='_blank'>My current location</a>");
-    $li.text(`${data.from} ${formatedTime.format('h:mm a')} :`);
-    $a.attr("href",data.url);
-    $li.append($a);
-    $li.appendTo($('#message'));
+    
+    var template = $('#location-message-template').html();
+    var html = Mustache.render(template, {
+        text: data.content,
+        url: data.from,
+        createdAt: formatedTime.format('h:mm a')  
+    });
+
+    $html.appendTo($('#message'));
 });
 
 $('#message-form').on('submit', function(e) {
